@@ -13,14 +13,16 @@ public class CannonTower : MonoBehaviour {
 		if (m_projectilePrefab == null || m_shootPoint == null)
 			return;
 
+		if (Time.time < m_lastShotTime + m_shootInterval)
+			return;
+
+		// TODO: enemies container
 		foreach (var monster in FindObjectsOfType<Monster>()) {
 			if (Vector3.Distance (transform.position, monster.transform.position) > m_range)
 				continue;
 
-			if (m_lastShotTime + m_shootInterval > Time.time)
-				continue;
-
 			// shot
+			// TODO: projectiles stack
 			Instantiate(m_projectilePrefab, m_shootPoint.position, m_shootPoint.rotation);
 
 			m_lastShotTime = Time.time;

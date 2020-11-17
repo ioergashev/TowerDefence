@@ -20,13 +20,18 @@ public class Monster : MonoBehaviour {
 		
 		if (Vector3.Distance (transform.position, m_moveTarget.transform.position) <= m_reachDistance) {
 			Destroy (gameObject);
+			// TODO: damage player
 			return;
 		}
 
-		var translation = m_moveTarget.transform.position - transform.position;
-		if (translation.magnitude > m_speed) {
-			translation = translation.normalized * m_speed;
-		}
+		var translation = (m_moveTarget.transform.position - transform.position).normalized* m_speed * Time.deltaTime;
 		transform.Translate (translation);
+	}
+
+	public void GetDamage(int damage)
+    {
+		m_hp -= damage;
+		if (m_hp <= 0)
+			Destroy(gameObject);
 	}
 }

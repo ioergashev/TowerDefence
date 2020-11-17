@@ -6,7 +6,7 @@ public class CannonProjectile : MonoBehaviour {
 	public int m_damage = 10;
 
 	void Update () {
-		var translation = transform.forward * m_speed;
+		var translation = transform.forward * m_speed * Time.deltaTime;
 		transform.Translate (translation);
 	}
 
@@ -15,10 +15,7 @@ public class CannonProjectile : MonoBehaviour {
 		if (monster == null)
 			return;
 
-		monster.m_hp -= m_damage;
-		if (monster.m_hp <= 0) {
-			Destroy (monster.gameObject);
-		}
+		monster.GetDamage(m_damage);
 		Destroy (gameObject);
 	}
 }

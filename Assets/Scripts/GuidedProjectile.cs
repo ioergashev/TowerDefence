@@ -12,10 +12,7 @@ public class GuidedProjectile : MonoBehaviour {
 			return;
 		}
 
-		var translation = m_target.transform.position - transform.position;
-		if (translation.magnitude > m_speed) {
-			translation = translation.normalized * m_speed;
-		}
+		var translation = (m_target.transform.position - transform.position).normalized * m_speed * Time.deltaTime;
 		transform.Translate (translation);
 	}
 
@@ -24,10 +21,7 @@ public class GuidedProjectile : MonoBehaviour {
 		if (monster == null)
 			return;
 
-		monster.m_hp -= m_damage;
-		if (monster.m_hp <= 0) {
-			Destroy (monster.gameObject);
-		}
-		Destroy (gameObject);
+		monster.GetDamage(m_damage);
+		Destroy(gameObject);
 	}
 }

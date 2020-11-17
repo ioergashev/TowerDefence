@@ -12,15 +12,17 @@ public class SimpleTower : MonoBehaviour {
 		if (m_projectilePrefab == null)
 			return;
 
+		if (Time.time < m_lastShotTime + m_shootInterval)
+			return;
+
+		// TODO: enemies container
 		foreach (var monster in FindObjectsOfType<Monster>()) {
 			if (Vector3.Distance (transform.position, monster.transform.position) > m_range)
 				continue;
 
-			if (m_lastShotTime + m_shootInterval > Time.time)
-				continue;
-
 			// shot
-			var projectile = Instantiate(m_projectilePrefab, transform.position + Vector3.up * 1.5f, Quaternion.identity) as GameObject;
+			// TODO: projectiles stack
+			var projectile = Instantiate(m_projectilePrefab, transform.position + Vector3.up * 1.5f, Quaternion.identity);
 			var projectileBeh = projectile.GetComponent<GuidedProjectile> ();
 			projectileBeh.m_target = monster.gameObject;
 
