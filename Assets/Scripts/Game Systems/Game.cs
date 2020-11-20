@@ -14,4 +14,6 @@ public partial class Game : MonoBehaviour
             return instance;
         }
     }
+
+    public GameObject Castle;
 }
