@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RotationNavigator : NavigatedBehavior
+public class RotationNavigator : MonoBehaviour, INavigated
 {
     [SerializeField]
     private Transform TargetTransform;
@@ -30,12 +30,12 @@ public class RotationNavigator : NavigatedBehavior
         transform.LookAt(targetPosition);
     }
 
-    public override void SetTarget(Transform target)
+    public void SetTarget(Transform target)
     {
         TargetTransform = target;
     }
 
-    public override void SetTarget(Vector3 target)
+    public void SetTarget(Vector3 target)
     {
         TargetTransform = null;
         TargetPosition = target;

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TranslationNavigator : NavigatedBehavior
+public class TranslationNavigator : MonoBehaviour, INavigated
 {
     [SerializeField]
     private Transform TargetTransform;
@@ -14,15 +14,15 @@ public class TranslationNavigator : NavigatedBehavior
         Vector3 targetPosition = TargetTransform != null ? TargetTransform.position : TargetPosition;
         Vector3 translation = (targetPosition - transform.position).normalized * Time.deltaTime * Speed;
 
-        transform.Translate(translation);
+        transform.Translate(translation, Space.World);
     }
 
-    public override void SetTarget(Transform target)
+    public void SetTarget(Transform target)
     {
         TargetTransform = target;
     }
 
-    public override void SetTarget(Vector3 target)
+    public void SetTarget(Vector3 target)
     {
         TargetTransform = null;
         TargetPosition = target;

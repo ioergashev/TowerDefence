@@ -21,7 +21,8 @@ public class ShootingTower : MonoBehaviour
 			if (shooting.IsReadyToShot)
 			{
 				var nearest = enemyTrigger.Targets.OrderBy(t => Vector3.Distance(t.position, transform.position)).First();
-				shooting.Shoot(nearest);
+				if (nearest != null)
+					shooting.Shoot(nearest);
 			}
 		}
 	}

@@ -15,12 +15,13 @@ public class ShootingWeapon : MonoBehaviour, IShooting
     {
         chargable = GetComponent<IChargable>();
     }
-
+        
     public void Shoot(Transform target)
     {
         if (chargable.Charged)
         {
-            Instantiate(ProjectilePrefab, ShootingPoint.position, Quaternion.identity);
+            var projectile = Instantiate(ProjectilePrefab, ShootingPoint.position, ShootingPoint.rotation);
+            projectile.GetComponent<INavigated>()?.SetTarget(target);
             chargable.Discharge();
         }
     }
