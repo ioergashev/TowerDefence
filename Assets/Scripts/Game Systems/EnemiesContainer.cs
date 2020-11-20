@@ -9,6 +9,7 @@ public partial class Game
 
 public class EnemiesContainer : MonoBehaviour
 {
+    [HideInInspector]
     public List<GameObject> Enemies = new List<GameObject>();
     public SpawnerBehavior EnemySpawner;
 
@@ -20,5 +21,13 @@ public class EnemiesContainer : MonoBehaviour
     private void EnemySpawnedHandler(GameObject spawned)
     {
         Enemies.Add(spawned);
+        var killable = spawned.GetComponent<IKillable>();
+        killable.OnKilled.AddListener(() => EnemyKilledHandler(spawned));
+    }
+
+    private void EnemyKilledHandler(GameObject enemy)
+    {
+        if (Enemies.Contains(enemy))
+            Enemies.Remove(enemy);
     }
 }

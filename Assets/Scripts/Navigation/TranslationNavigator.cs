@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TranslationNavigator : MonoBehaviour, INavigated
 {
-    [SerializeField]
     private Transform TargetTransform;
     private Vector3 TargetPosition = Vector3.zero;
     public float Speed = 1;   

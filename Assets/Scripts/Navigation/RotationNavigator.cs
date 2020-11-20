@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class RotationNavigator : MonoBehaviour, INavigated
 {
-    [SerializeField]
     private Transform TargetTransform;
     private Vector3 TargetPosition = Vector3.zero;
     public bool useAxisX = true;
@@ -14,6 +13,7 @@ public class RotationNavigator : MonoBehaviour, INavigated
     private void Awake()
     {
         TargetTransform = transform;
+        TargetPosition = transform.position;
     }
 
     private void Update()

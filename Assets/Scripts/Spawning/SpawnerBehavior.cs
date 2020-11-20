@@ -8,6 +8,7 @@ public class SpawnEvent : UnityEvent<GameObject> { }
 
 public abstract class SpawnerBehavior : MonoBehaviour, ISpawning 
 {
+    [HideInInspector]
     public SpawnEvent OnSpawned = new SpawnEvent();
 
     public abstract GameObject Spawn(GameObject prefab);
