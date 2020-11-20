@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class ForwardMover : MonoBehaviour
 {
-    public float Speed = 10;
+    public Speed speed;
+
+    private void Awake()
+    {
+        speed = GetComponent<Speed>();
+    }
 
     private void Update()
     {
-        Vector3 translation = transform.forward * Time.deltaTime * Speed;
+        Vector3 translation = transform.forward * Time.deltaTime * speed.speed;
 
         transform.Translate(translation, Space.World);
     }

@@ -10,6 +10,9 @@ public class RotationNavigator : MonoBehaviour, INavigated
     public bool useAxisY = true;
     public bool useAxisZ = true;
 
+    public float smoothTime = 0.3F;
+    private Vector3 velocity = Vector3.zero;
+
     private void Awake()
     {
         TargetTransform = transform;
@@ -36,8 +39,8 @@ public class RotationNavigator : MonoBehaviour, INavigated
     }
 
     public void SetTarget(Vector3 target)
-    {
+    {        
         TargetTransform = null;
-        TargetPosition = target;
+        TargetPosition = Vector3.SmoothDamp(TargetPosition, target, ref velocity, smoothTime);
     }
 }
