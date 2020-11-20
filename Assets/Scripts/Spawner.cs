@@ -1,24 +1,24 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Spawner : MonoBehaviour {
-	public float m_interval = 3;
-	public GameObject m_moveTarget;
+public class Spawner : MonoBehaviour 
+{
+	public GameObject Prefab;
+	private Timer timer;
+    public Transform SpawnPoint;
 
-	private float m_lastSpawn = -1;
+    private void Awake()
+    {
+		timer = GetComponent<Timer>();
+    }
 
-	void Update () {
-		if (Time.time < m_lastSpawn + m_interval)
-			return;
+    private void Start()
+    {
+        timer.OnTimer.AddListener(TimerHandler);
+    }
 
-		// TODO: enemies stack
-		var newMonster = GameObject.CreatePrimitive(PrimitiveType.Capsule);
-		var r = newMonster.AddComponent<Rigidbody>();
-		r.useGravity = false;
-		newMonster.transform.position = transform.position;
-		var monsterBeh = newMonster.AddComponent<Monster>();
-		monsterBeh.m_moveTarget = m_moveTarget;
-
-		m_lastSpawn = Time.time;
-	}
+    private void TimerHandler()
+    {
+        Instantiate(Prefab, SpawnPoint.position, SpawnPoint.rotation);
+    }
 }
