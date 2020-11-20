@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class SimpleExpectedPositionCalculator : MonoBehaviour, IExpectedPositionCalculator
+public class AverageExpectedPositionCalculator : MonoBehaviour, IExpectedPositionCalculator
 {
     private Vector3 lastPosition = Vector3.zero;
 

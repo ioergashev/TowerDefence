@@ -8,6 +8,7 @@ public class TowerNavigation : MonoBehaviour
     private List<INavigated> navigators = new List<INavigated>();
     public Speed WeaponShotSpeed;
     public Transform ShootPoint;
+    public float FreeWalkDuration = 1;
 
     private void Awake()
     {
@@ -30,9 +31,9 @@ public class TowerNavigation : MonoBehaviour
                 if (expectedPositionCalculator != null)
                 {
                     Vector3 delta = expectedPositionCalculator.Delta;
-                    targetPositon += delta/Time.fixedDeltaTime * 1;
+                    targetPositon += delta/Time.fixedDeltaTime * FreeWalkDuration;
 
-                    float shootSpeed = (targetPositon - ShootPoint.position).magnitude / 1;
+                    float shootSpeed = (targetPositon - ShootPoint.position).magnitude / FreeWalkDuration;
                     WeaponShotSpeed.speed = shootSpeed;
                 }
                 
