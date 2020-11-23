@@ -21,7 +21,10 @@ public class ShootingTower : MonoBehaviour
 			// Find target
 			var target = targetDetector.GetTarget();
 			if (target != null)
+			{
 				shooting.Shoot(target);
+				targetDetector.FindNext();
+			}
 		}
 	}
 }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ForwardMover : MonoBehaviour
 {
+    [HideInInspector]
     public Speed speed;
 
     private void Awake()

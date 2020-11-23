@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class DestroyOnInvisible : MonoBehaviour
 {
-    public VisibilityTrigger trigger;
+    private VisibilityTrigger trigger;
+
+    private void Awake()
+    {
+        trigger = GetComponent<VisibilityTrigger>();
+    }
 
     private void Start()
     {

@@ -41,6 +41,6 @@ public class RotationNavigator : MonoBehaviour, INavigated
     public void SetTarget(Vector3 target)
     {        
         TargetTransform = null;
-        TargetPosition = target;//Vector3.SmoothDamp(TargetPosition, target, ref velocity, smoothTime);
+        TargetPosition = Vector3.SmoothDamp(TargetPosition, target, ref velocity, smoothTime);
     }
 }

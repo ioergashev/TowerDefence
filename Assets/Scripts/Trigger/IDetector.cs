@@ -5,4 +5,5 @@ using UnityEngine;
 public interface IDetector 
 {
     Transform GetTarget();
+    Transform FindNext();
 }

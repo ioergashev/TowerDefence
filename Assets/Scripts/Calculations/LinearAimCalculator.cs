@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class LinearAimCalculator : MonoBehaviour, IAimCalculator
 {
-    private Vector3 targetPos = Vector3.zero;
-
-    public bool CalculateIntersection(Transform target, Vector3 origin, float shellSpeed, out Vector3 intersectionPoint)
+    public bool Aim(Transform target, Vector3 origin, float shellSpeed, out AimInfo aimInfo)
     {
-        intersectionPoint = Vector3.zero;
-
-        if (target.position == origin)
-            return false;
+        aimInfo = new AimInfo
+        {
+            RequiredShellVelocity = (target.position - origin).normalized * shellSpeed,
+            FlightDuration = (target.position - origin).magnitude/ shellSpeed,
+            ImpactPoint = target.position
+        };
 
         var velocityCalculator = target.GetComponent<IVelocityCalculator>();
         if (velocityCalculator == null)
@@ -24,20 +24,21 @@ public class LinearAimCalculator : MonoBehaviour, IAimCalculator
         Vector3 origin2target = target.position - origin;
         float angle = Vector3.Angle(targetVelocity, -origin2target) * Mathf.Deg2Rad;
 
-        float crossingTime = origin2target.magnitude * (targetSpeed * Mathf.Cos(angle) - Mathf.Sqrt(shellSpeed * shellSpeed - Mathf.Sin(angle) * Mathf.Sin(angle) * targetSpeed * targetSpeed))
+        if (shellSpeed == targetSpeed)
+            return false;
+
+        float flightDuration = origin2target.magnitude * (targetSpeed * Mathf.Cos(angle) - Mathf.Sqrt(shellSpeed * shellSpeed - Mathf.Sin(angle) * Mathf.Sin(angle) * targetSpeed * targetSpeed))
                            / (shellSpeed* shellSpeed - targetSpeed * targetSpeed);
 
-        crossingTime = Mathf.Abs(crossingTime);
+        flightDuration = Mathf.Abs(flightDuration);
 
-        intersectionPoint = target.position + (targetVelocity * targetSpeed * crossingTime);
-        targetPos = intersectionPoint;
+        Vector3 impactPoint = target.position + (targetVelocity * targetSpeed * flightDuration);
+        Vector3 resultShellVelocity = (impactPoint - origin)/ flightDuration;
+
+        aimInfo.FlightDuration = flightDuration;
+        aimInfo.RequiredShellVelocity = resultShellVelocity;
+        aimInfo.ImpactPoint = impactPoint;
 
         return true;
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawSphere(targetPos, 0.5f);
     }
 }
