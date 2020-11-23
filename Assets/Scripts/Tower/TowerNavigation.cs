@@ -8,12 +8,12 @@ public class TowerNavigation : MonoBehaviour
     private List<INavigated> navigators = new List<INavigated>();
     public Speed WeaponShotSpeed;
     public Transform ShootPoint;
-    public AutoAiming autoAiming;
+    private IAimCalculator aimCalculator;
 
     private void Awake()
     {
         enemyTrigger = GetComponent<TriggerBehavior>();
-        autoAiming = GetComponent<AutoAiming>();
+        aimCalculator = GetComponent<IAimCalculator>();
         navigators = GetComponentsInChildren<INavigated>().ToList();
     }
 
@@ -27,7 +27,7 @@ public class TowerNavigation : MonoBehaviour
             if (nearest != null)
             {
                 // Calculate lead
-                if (autoAiming.Aim(nearest, ShootPoint.position, WeaponShotSpeed.speed, out Vector3 shellDirection))
+                if (aimCalculator.Aim(nearest, ShootPoint.position, WeaponShotSpeed.speed, out Vector3 shellDirection))
                 {
                     // Navigate to intersection
                     Vector3 targetPositon = ShootPoint.position + shellDirection * WeaponShotSpeed.speed;
