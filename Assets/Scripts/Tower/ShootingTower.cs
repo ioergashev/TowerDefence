@@ -16,10 +16,12 @@ public class ShootingTower : MonoBehaviour
 
 	void Update()
 	{
+		// If any enemy in trigger
 		if (enemyTrigger.InTrigger)
 		{
-			if (shooting.IsReadyToShot)
+			if (shooting.IsReadyToShoot)
 			{
+				// Find nearest enemy
 				var nearest = enemyTrigger.Targets.OrderBy(t => Vector3.Distance(t.position, transform.position)).First();
 				if (nearest != null)
 					shooting.Shoot(nearest);

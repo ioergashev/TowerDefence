@@ -9,7 +9,7 @@ public class ShootingWeapon : MonoBehaviour, IShooting
     private IChargable chargable;
     private Speed shotSpeed;
 
-    public bool IsReadyToShot => chargable.Charged;
+    public bool IsReadyToShoot => chargable.Charged;
 
     private void Awake()
     {
@@ -19,8 +19,7 @@ public class ShootingWeapon : MonoBehaviour, IShooting
         
     public void Shoot(Transform target)
     {
-        // if is ready to shoot
-        if (chargable.Charged)
+        if (IsReadyToShoot)
         {
             // Instantiate projectile
             var projectile = Instantiate(ProjectilePrefab, ShootingPoint.position, ShootingPoint.rotation);

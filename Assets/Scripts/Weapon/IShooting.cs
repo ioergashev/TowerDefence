@@ -2,6 +2,6 @@ using UnityEngine;
 
 public interface IShooting
 {
-    bool IsReadyToShot { get; }
+    bool IsReadyToShoot { get; }
     void Shoot(Transform target);
 }

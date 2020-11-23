@@ -19,7 +19,7 @@ public class TowerNavigation : MonoBehaviour
 
     void Update()
     {
-        // If any enemy in target
+        // If any enemy in trigger
         if(enemyTrigger.InTrigger)
         {
             // Find nearest enemy
@@ -29,7 +29,7 @@ public class TowerNavigation : MonoBehaviour
                 // Calculate lead
                 if (aimCalculator.Aim(nearest, ShootPoint.position, WeaponShotSpeed.speed, out Vector3 shellDirection))
                 {
-                    // Navigate to intersection
+                    // Navigate to intersection point
                     Vector3 targetPositon = ShootPoint.position + shellDirection * WeaponShotSpeed.speed;
                     navigators.ForEach(t => t.SetTarget(targetPositon));
                 }             
