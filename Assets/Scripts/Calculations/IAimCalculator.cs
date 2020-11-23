@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IAimCalculator 
 {
-    bool Aim(Transform target, Vector3 origin, float shellSpeed, out Vector3 shellDirection);
+    bool CalculateIntersection(Transform target, Vector3 origin, float shellSpeed, out Vector3 shellDirection);
 }

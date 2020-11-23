@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TowerNavigation : MonoBehaviour
 {
-    private TriggerBehavior enemyTrigger;
+    private IDetector targetDetector;
     private List<INavigated> navigators = new List<INavigated>();
     public Speed WeaponShotSpeed;
     public Transform ShootPoint;
@@ -12,28 +12,29 @@ public class TowerNavigation : MonoBehaviour
 
     private void Awake()
     {
-        enemyTrigger = GetComponent<TriggerBehavior>();
+        targetDetector = GetComponent<IDetector>();
         aimCalculator = GetComponent<IAimCalculator>();
         navigators = GetComponentsInChildren<INavigated>().ToList();
     }
 
-    void Update()
+    void LateUpdate()
     {
-        // If any enemy in trigger
-        if(enemyTrigger.InTrigger)
+        // Find target
+        var target = targetDetector.GetTarget();
+        if (target != null)
         {
-            // Find nearest enemy
-            var nearest = enemyTrigger.Targets.OrderBy(t => Vector3.Distance(t.position, transform.position)).FirstOrDefault();
-            if (nearest != null)
+            // Calculate lead
+            if (aimCalculator.CalculateIntersection(target, ShootPoint.position, WeaponShotSpeed.speed, out Vector3 intersectionPoint))
             {
-                // Calculate lead
-                if (aimCalculator.Aim(nearest, ShootPoint.position, WeaponShotSpeed.speed, out Vector3 shellDirection))
-                {
-                    // Navigate to intersection point
-                    Vector3 targetPositon = ShootPoint.position + shellDirection * WeaponShotSpeed.speed;
-                    navigators.ForEach(t => t.SetTarget(targetPositon));
-                }             
+                // Navigate to intersection point
+                navigators.ForEach(t => t.SetTarget(intersectionPoint));
             }
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(ShootPoint.position, ShootPoint.position + ShootPoint.forward * 10);
     }
 }

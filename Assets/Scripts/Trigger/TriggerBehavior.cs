@@ -17,4 +17,6 @@ public abstract class TriggerBehavior : MonoBehaviour
 
     /// <summary> True if any target in trigger </summary>
     public virtual bool InTrigger { get; }
+
+    public abstract bool TargetInTrigger(Transform target);
 }

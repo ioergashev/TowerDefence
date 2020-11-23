@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class LinearAimCalculator : MonoBehaviour, IAimCalculator
 {
-    public bool Aim(Transform target, Vector3 origin, float shellSpeed, out Vector3 shellDirection)
-    {
-        shellDirection = Vector3.zero;
+    private Vector3 targetPos = Vector3.zero;
 
-        if (shellSpeed == 0)
-            return false;
+    public bool CalculateIntersection(Transform target, Vector3 origin, float shellSpeed, out Vector3 intersectionPoint)
+    {
+        intersectionPoint = Vector3.zero;
+
         if (target.position == origin)
             return false;
 
@@ -15,19 +15,29 @@ public class LinearAimCalculator : MonoBehaviour, IAimCalculator
         if (velocityCalculator == null)
             return false;
 
-        Vector3 targetVelocity = velocityCalculator.Velocity;
-        float targetSpeed = targetVelocity.magnitude;
+        var speed = target.GetComponent<Speed>();
+        if (speed == null)
+            return false;
+
+        Vector3 targetVelocity = velocityCalculator.Velocity.normalized;
+        float targetSpeed = speed.speed;
         Vector3 origin2target = target.position - origin;
         float angle = Vector3.Angle(targetVelocity, -origin2target) * Mathf.Deg2Rad;
 
-        float crossingTime = (origin2target.magnitude * targetSpeed * Mathf.Cos(angle))
+        float crossingTime = origin2target.magnitude * (targetSpeed * Mathf.Cos(angle) - Mathf.Sqrt(shellSpeed * shellSpeed - Mathf.Sin(angle) * Mathf.Sin(angle) * targetSpeed * targetSpeed))
                            / (shellSpeed* shellSpeed - targetSpeed * targetSpeed);
 
         crossingTime = Mathf.Abs(crossingTime);
 
-        Vector3 intersectionPoint = targetVelocity.normalized * crossingTime;
+        intersectionPoint = target.position + (targetVelocity * targetSpeed * crossingTime);
+        targetPos = intersectionPoint;
 
-        shellDirection = (intersectionPoint - origin).normalized;
         return true;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawSphere(targetPos, 0.5f);
     }
 }

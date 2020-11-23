@@ -6,26 +6,22 @@ using UnityEngine;
 public class ShootingTower : MonoBehaviour
 {
 	private IShooting shooting;
-	private TriggerBehavior enemyTrigger;
+	private IDetector targetDetector;
 
 	private void Awake()
 	{
 		shooting = GetComponent<IShooting>();
-		enemyTrigger = GetComponent<TriggerBehavior>();
+		targetDetector = GetComponent<IDetector>();
 	}
 
 	void Update()
 	{
-		// If any enemy in trigger
-		if (enemyTrigger.InTrigger)
+		if (shooting.IsReadyToShoot)
 		{
-			if (shooting.IsReadyToShoot)
-			{
-				// Find nearest enemy
-				var nearest = enemyTrigger.Targets.OrderBy(t => Vector3.Distance(t.position, transform.position)).First();
-				if (nearest != null)
-					shooting.Shoot(nearest);
-			}
+			// Find target
+			var target = targetDetector.GetTarget();
+			if (target != null)
+				shooting.Shoot(target);
 		}
 	}
 }
