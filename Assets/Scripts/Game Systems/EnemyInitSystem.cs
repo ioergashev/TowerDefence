@@ -19,6 +19,6 @@ public class EnemyInitSystem : MonoBehaviour
 
     private void SpawnedHandler(GameObject spawned)
     {
-        spawned.GetComponents<INavigated>().ToList().ForEach(n => n.SetTarget(Game.Instance.Castle.transform));
+        spawned.GetComponents<NavigatedBehavior>().ToList().ForEach(n => n.SetTarget(Game.Instance.Castle.transform));
     }
 }

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LinearAimCalculator : MonoBehaviour, IAimCalculator
+public class LinearAimCalculator : IAimCalculator
 {
     public bool Aim(Transform target, Vector3 origin, float shellSpeed, out AimInfo aimInfo)
     {

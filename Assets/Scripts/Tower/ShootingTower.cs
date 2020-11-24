@@ -1,29 +1,29 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
+/// <summary> Contains shooting logic </summary>
 public class ShootingTower : MonoBehaviour
 {
-	private IShooting shooting;
+	[HideInInspector]
+	public ShootingBehavior Shooting;
 	private IDetector targetDetector;
 
 	private void Awake()
 	{
-		shooting = GetComponent<IShooting>();
 		targetDetector = GetComponent<IDetector>();
 	}
 
 	void Update()
 	{
-		if (shooting.IsReadyToShoot)
+		if (Shooting.IsReadyToShoot)
 		{
 			// Find target
-			var target = targetDetector.GetTarget();
+			var target = targetDetector.GetCurrentTarget();
 			if (target != null)
 			{
-				shooting.Shoot(target);
-				targetDetector.FindNext();
+				// Fire
+				Shooting.Shoot(target);
+
+				SendMessage("OnShootTarget", target);
 			}
 		}
 	}

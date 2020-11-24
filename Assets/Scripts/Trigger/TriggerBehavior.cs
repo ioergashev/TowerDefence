@@ -9,7 +9,7 @@ public class TriggerEvent : UnityEvent<GameObject> { }
 public abstract class TriggerBehavior : MonoBehaviour
 {
     [HideInInspector]
-    /// <summary> Objects to detect </summary>
+    /// <summary> Objects to trigger </summary>
     public List<Transform> Targets;
 
     [HideInInspector]

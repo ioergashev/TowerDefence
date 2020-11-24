@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class Detector : MonoBehaviour, IDetector
+public class TriggerTargetDetector : MonoBehaviour, IDetector
 {
     private TriggerBehavior trigger;
-    public bool FixTarget = true;
+
+    [Tooltip("Should the selected target be locked while in the trigger")]
+    public bool LockTarget = true;
     private Transform fixedTarget;
     private List<Transform> passedTargets = new List<Transform>();
 
@@ -20,15 +22,15 @@ public class Detector : MonoBehaviour, IDetector
         passedTargets.RemoveAll(t => t == null);
     }
 
-    public Transform GetTarget()
+    public Transform GetCurrentTarget()
     {
         Transform target = null;
 
         // If any target in trigger
         if (trigger.InTrigger)
         {
-            // If some target fixed
-            if (FixTarget && fixedTarget != null && trigger.TargetInTrigger(fixedTarget))
+            // If some target locked
+            if (LockTarget && fixedTarget != null && trigger.TargetInTrigger(fixedTarget))
                 target = fixedTarget;
             else
                 // Find new target
@@ -36,18 +38,19 @@ public class Detector : MonoBehaviour, IDetector
                     .FirstOrDefault(t => !passedTargets.Contains(t));
         }
 
-        // Fix selected target
+        // Lock selected target
         fixedTarget = target;
 
         return target;
     }
 
-    public Transform FindNext()
+    public Transform SelectNextTarget()
     {
-        var current = GetTarget();
+        fixedTarget = null;
+        var current = GetCurrentTarget();     
         if (current != null)
             passedTargets.Add(current);
 
-        return GetTarget();
+        return GetCurrentTarget();
     }
 }

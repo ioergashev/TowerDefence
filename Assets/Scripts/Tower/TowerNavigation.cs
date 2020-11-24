@@ -2,33 +2,31 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary> Controls tower navigation </summary>
 public class TowerNavigation : MonoBehaviour
 {
     private IDetector targetDetector;
-    private List<INavigated> navigators = new List<INavigated>();
-    private Speed WeaponShotSpeed;
-    private IShooting shooting;
-    private IAimCalculator aimCalculator;
+    private List<NavigatedBehavior> navigators = new List<NavigatedBehavior>();
+    [HideInInspector]
+    public ShootingBehavior shooting;
+    public IAimCalculator AimCalculator;
 
     private void Awake()
     {
-        shooting = GetComponent<IShooting>();
-        WeaponShotSpeed = GetComponent<Speed>();
         targetDetector = GetComponent<IDetector>();
-        aimCalculator = GetComponent<IAimCalculator>();
-        navigators = GetComponentsInChildren<INavigated>().ToList();
+        navigators = GetComponentsInChildren<NavigatedBehavior>().ToList();
     }
 
     void LateUpdate()
     {
         // Find target
-        var target = targetDetector.GetTarget();
+        var target = targetDetector.GetCurrentTarget();
         if (target != null)
         {
             // Calculate lead
-            if (aimCalculator.Aim(target, shooting.ShootingPoint.position, WeaponShotSpeed.speed, out AimInfo aimInfo))
+            if (AimCalculator.Aim(target, shooting.ShootPoint.position, shooting.ShotSpeed, out AimInfo aimInfo))
             {
-                Vector3 targetPoint = shooting.ShootingPoint.position + aimInfo.RequiredShellVelocity * 10;
+                Vector3 targetPoint = shooting.ShootPoint.position + aimInfo.RequiredShellVelocity * 10;
 
                 // Navigate tower
                 navigators.ForEach(t => t.SetTarget(targetPoint));

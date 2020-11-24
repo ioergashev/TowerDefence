@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class ForwardMover : MonoBehaviour
 {
-    [HideInInspector]
-    public Speed speed;
+    private Speed speed;
 
     private void Awake()
     {
@@ -14,8 +13,8 @@ public class ForwardMover : MonoBehaviour
 
     private void Update()
     {
-        Vector3 translation = transform.forward * Time.deltaTime * speed.speed;
+        Vector3 translation = Vector3.forward * Time.deltaTime * speed.speed;
 
-        transform.Translate(translation, Space.World);
+        transform.Translate(translation);
     }
 }

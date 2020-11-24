@@ -1,22 +1,12 @@
 using UnityEngine;
 
-public class ParabolicAimCalculator : MonoBehaviour, IAimCalculator
+public class ParabolicAimCalculator : IAimCalculator
 {
-
-    Vector3 pos;
-
     private LinearAimCalculator linearCalculator;
 
-    private void Awake()
+    public ParabolicAimCalculator()
     {
-        GameObject child = new GameObject("LinearAimCalculator");
-        child.transform.SetParent(transform);
-        linearCalculator = child.AddComponent<LinearAimCalculator>();
-    }
-
-    private void OnDestroy()
-    {
-        Destroy(linearCalculator.gameObject);
+        linearCalculator = new LinearAimCalculator();
     }
 
     public bool Aim(Transform target, Vector3 origin, float shellSpeed, out AimInfo aimInfo)
