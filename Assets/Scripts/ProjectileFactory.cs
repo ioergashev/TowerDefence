@@ -7,6 +7,7 @@ public class ProjectileFactory: MonoBehaviour
     public GameObject Prefab;
     public Transform Parent;
     public bool UsePhysics;
+    public bool Navigated;
 
     [HideInInspector]
     public Vector3 Velocity;
@@ -15,12 +16,18 @@ public class ProjectileFactory: MonoBehaviour
 
     public GameObject CreateProjectile(Vector3 position, Quaternion rotation)
     {
-        var instance = GameObject.Instantiate(Prefab, position, rotation, Parent);
+        var instance = Instantiate(Prefab, position, rotation, Parent);
 
         if (UsePhysics)
         {
-            var rb = instance.GetComponent<Rigidbody>();
+            var rb = instance.AddComponent<Rigidbody>();
             rb.velocity = Velocity;
+        }
+        else if(Navigated)
+        {
+            instance.AddComponent<Speed>();
+            instance.AddComponent<TranslationNavigator>().SetTarget(Target);
+            instance.AddComponent<RotationNavigator>().SetTarget(Target);
         }
         else
         {

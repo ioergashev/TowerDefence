@@ -3,7 +3,6 @@ using UnityEngine;
 /// <summary> Contains shooting logic </summary>
 public class ShootingTower : MonoBehaviour
 {
-	[HideInInspector]
 	public ShootingBehavior Shooting;
 	private IDetector targetDetector;
 
@@ -23,7 +22,7 @@ public class ShootingTower : MonoBehaviour
 				// Fire
 				Shooting.Shoot(target);
 
-				SendMessage("OnShootTarget", target);
+				SendMessage("OnShootTarget", target, SendMessageOptions.DontRequireReceiver);
 			}
 		}
 	}
