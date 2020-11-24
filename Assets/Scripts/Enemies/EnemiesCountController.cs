@@ -13,9 +13,14 @@ public class EnemiesCountController : MonoBehaviour
 
     private void Update()
     {
+        // If there are enought enemies
         if (Game.Instance.EnemiesContainer.Enemies.Count >= Game.Instance.Settings.MaxEnemiesCount && spawner.AutoSpawnActive)
+            // Stop spawning
             spawner.AutoSpawnActive = false;
+
+        // If there are not enought enemies
         else if (Game.Instance.EnemiesContainer.Enemies.Count < Game.Instance.Settings.MaxEnemiesCount && !spawner.AutoSpawnActive)
+            // Start spawning
             spawner.AutoSpawnActive = true;
     }
 }

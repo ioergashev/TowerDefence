@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AverageVelocityCalculator : MonoBehaviour, IVelocityCalculator
+public class VelocityCalculator : MonoBehaviour, IVelocityCalculator
 {
     IExpectedPositionCalculator expectedPositionCalculator;
 

@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class AverageExpectedPositionCalculator : MonoBehaviour, IExpectedPositionCalculator
 {
-    private Vector3 lastPosition = Vector3.zero;
-
+    [Tooltip("Higher value provides more accurate calculation")]
     public int bufferSize = 10;
+
+    private Vector3 lastPosition = Vector3.zero;
     private List<Vector3> deltasBuffer = new List<Vector3>();
     private int currentIndex;
     public Vector3 Delta => AverageDelta;
